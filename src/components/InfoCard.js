@@ -1,9 +1,10 @@
 import React from 'react';
+import '../styles/App.css';
 
 const InfoCard = ({ label, value }) => (
-  <div className="p-3 rounded-lg bg-opacity-10 bg-white backdrop-blur-sm">
-    <div className="text-sm opacity-75 mb-1">{label}</div>
-    <div className="font-semibold">{value}</div>
+  <div className="info-card">
+    <div className="info-card-label">{label}</div>
+    <div className="info-card-value">{value}</div>
   </div>
 );
 
