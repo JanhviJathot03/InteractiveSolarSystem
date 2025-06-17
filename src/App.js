@@ -51,24 +51,24 @@ const App = () => {
 
   // ✅ Correct animation loop with real elapsed time
   useEffect(() => {
-  
-  const animate = (now) => {
-    const elapsed = (now - lastTimeRef.current) / 1000;
 
-    if (!isPaused) {
-      // ✅ Update ref for smooth physics
-      currentTimeRef.current += elapsed;
-      // ✅ Trigger re-render
-      setCurrentTime(currentTimeRef.current);
-    }
+    const animate = (now) => {
+      const elapsed = (now - lastTimeRef.current) / 1000;
 
-    lastTimeRef.current = now;
+      if (!isPaused) {
+        // ✅ Update ref for smooth physics
+        currentTimeRef.current += elapsed;
+        // ✅ Trigger re-render
+        setCurrentTime(currentTimeRef.current);
+      }
+
+      lastTimeRef.current = now;
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
     animationRef.current = requestAnimationFrame(animate);
-  };
-
-  animationRef.current = requestAnimationFrame(animate);
-  return () => cancelAnimationFrame(animationRef.current);
-}, [isPaused]);
+    return () => cancelAnimationFrame(animationRef.current);
+  }, [isPaused]);
 
   // Filter planets based on search + toggle dwarf planets
   const filteredPlanets = planetsData.filter(planet =>
@@ -76,8 +76,8 @@ const App = () => {
   );
   const allPlanets = showDwarfPlanets
     ? [...filteredPlanets, ...dwarfPlanets.filter(dp =>
-        dp.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )]
+      dp.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )]
     : filteredPlanets;
 
   // Mouse drag + zoom
@@ -188,19 +188,28 @@ const App = () => {
               )}
 
               {/* Planets */}
-              {allPlanets.map(planet => (
-                <Planet
-                  key={planet.id}
-                  planet={planet}
-                  isSelected={selectedPlanet?.id === planet.id}
-                  currentTime={currentTime}
-                  zoomLevel={zoomLevel}
-                  onPlanetClick={handlePlanetClick}
-                  isDarkMode={isDarkMode}
-                />
-                
+              {allPlanets.map(planet => {
+                const angle = currentTime * planet.speed * 2 * Math.PI;
+                const x = Math.cos(angle) * planet.orbitRadius;
+                const y = Math.sin(angle) * planet.orbitRadius;
 
-              ))}
+                return (
+                  <Planet
+                    key={planet.id}
+                    planet={planet}
+                    isSelected={selectedPlanet?.id === planet.id}
+                    currentTime={currentTime}
+                    zoomLevel={zoomLevel}
+                    onPlanetClick={handlePlanetClick}
+                    isDarkMode={isDarkMode}
+
+                    
+                    x={x}
+                    y={y}
+                  />
+                );
+              })}
+
             </g>
           </svg>
 

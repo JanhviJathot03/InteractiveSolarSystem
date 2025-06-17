@@ -6,14 +6,13 @@ const Planet = ({
   currentTime,
   zoomLevel,
   onPlanetClick,
-  isDarkMode // ✅ receive the theme mode
+  isDarkMode,
+  x,
+  y 
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  // Compute planet position in orbit
-  const angle = currentTime * planet.speed * 2 * Math.PI;
-  const x = Math.cos(angle) * planet.orbitRadius;
-  const y = Math.sin(angle) * planet.orbitRadius;
+
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
