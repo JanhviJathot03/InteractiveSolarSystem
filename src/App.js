@@ -196,7 +196,10 @@ const App = () => {
                   currentTime={currentTime}
                   zoomLevel={zoomLevel}
                   onPlanetClick={handlePlanetClick}
+                  isDarkMode={isDarkMode}
                 />
+                
+
               ))}
             </g>
           </svg>
